@@ -1,29 +1,32 @@
 <html>
+
 <head>
     <title>qrcode-to-pdf</title>
+    
     <meta name="theme-color" content="#F5FFFA">
+    
     <!-- <link rel="manifest" href="/manifest.json"> -->
     <meta name="mobile-web-app-capable" content="yes">
-    <!-- <link rel="icon" href="./static/creeperface.jpg"> -->
-    <meta name="viewport" content="width=device-width, initial-scale=1"> 
-
-    <!-- Jquery -->
-    <script
-  src="https://code.jquery.com/jquery-2.2.4.min.js"
-  integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
-  crossorigin="anonymous"></script>
-
-
-    <script src="{{ url_for('static', filename='js/qrcodetopdf.js') }}"></script>
     
+    <!-- <link rel="icon" href="./static/creeperface.jpg"> -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <!-- Jquery -->
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+    
+    <!-- Spectrum (color picker)-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/spectrum/1.8.0/spectrum.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/spectrum/1.8.0/spectrum.css"></script>    
+
+    <!-- Local -->
+    <script src="{{ url_for('static', filename='js/qrcodetopdf.js') }}"></script>
+
 </head>
 
 <body>
-
-<div id="spa">
-
-<div>
-
+    <div id="spa">
+    <div>
 </body>
 
 </html>
