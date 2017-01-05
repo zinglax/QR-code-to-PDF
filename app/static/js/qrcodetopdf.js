@@ -50,9 +50,9 @@ function action_render(){
   ;
   function success(response){
     console.log( "UPDATING: action_render" );
-    console.log( response['render'] );
+    console.log( response['rendered-html'] );
     $( "#spa" ).empty();
-    $( "#spa" ).html( response['render'] );
+    $( "#spa" ).html( response['rendered-html']);
   }
   run_ajax_action("render", data, success);
 }

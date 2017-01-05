@@ -5,10 +5,14 @@ Attributes:
 """
 import os
 from app import app
-from flask import render_template, request, jsonify, url_for, flash, redirect
+from flask import render_template, request, jsonify, url_for, flash, redirect, send_from_directory
 import json
 import jinja2
 import pdfkit
+import pyqrcode
+
+# DEBUG
+import time
 
 
 script_args = {}
@@ -27,6 +31,17 @@ def page_index():
     if request.method == 'POST' and 'action' in request.get_json():
         return process_ajax_action(request, page_args=page_args)
     return render_template('./index.html', **page_args)
+
+
+@app.route('/rendered/<path:filename>', methods=['GET', 'POST'])
+def download(filename):
+    uploads = app.config['APP_DIR']
+    return send_from_directory(directory='', filename=filename)
+
+
+@app.route('/download/<path:path>')
+def send_js(path):
+    return send_from_directory(app.config['STATIC_DIR'], path)
 
 
 def process_ajax_action(request, **kwargs):
@@ -53,9 +68,50 @@ def process_ajax_action(request, **kwargs):
     if request.get_json()['action'] == "render":
         '''render.
         '''
-        contents_html = render_html_from_action('render', {})
-        pdfkit.from_url('http://google.com', 'qrcodes.storage.pdf')
-        return json.dumps({'status': 'OK', "render": contents_html})
+        contents_html = render_html_from_action('render', {})   #   UI -> render.jinja
+
+        # Jinja Env for render layouts of barcodes
+        render_layouts_templates = os.path.join(app.config['TEMPLATES_DIR'], 'render_layouts')
+        template_dirs = [x[0] for x in os.walk(render_layouts_templates)]
+        jinja_env = create_jinja2_env(template_dirs=template_dirs)
+
+        # Create rendered qrcodes
+        qrcodes = []
+
+        for i in range(30):
+            t = time.time()
+
+            qrcode = {}
+            qr_time = pyqrcode.create(t)
+            qr_code_name = str(t) + '.svg' 
+            qr_time.svg(qr_code_name, scale=4)
+            print(qr_time.terminal(quiet_zone=1))
+
+            qrcode['name'] = qr_code_name
+            qrcode['id'] = t
+            qrcode['label'] = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(t))
+            qrcodes.append(qrcode) # throw this sucker into a template
+        rendered_html = os.path.join(os.getcwd(),
+                                             "tmp.html")
+        with open(rendered_html, "w+") as f:
+            f.write(
+                jinja_env.get_template("layout1.jinja").render(
+                    {"qrcodes":qrcodes}))
+
+
+        options = {
+            'page-size': 'A4',
+            'margin-top': '0.75in',
+            'margin-right': '0.75in',
+            'margin-bottom': '0.75in',
+            'margin-left': '0.75in',
+        }
+        pdfkit.from_file(rendered_html, 'qrcodes.storage.from-file.pdf', options=options)
+        # pdfkit.from_url('http://192.168.1.148:5000/', 'qrcodes.storage.pdf')
+        
+        rendered = jinja_env.get_template("layout1.jinja").render({"qrcodes":qrcodes})
+
+        return json.dumps({'status': 'OK', "render": contents_html, "rendered-html": rendered})
 
     # No action found
     return json.dumps({'status': 'OK',

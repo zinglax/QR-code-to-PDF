@@ -4,7 +4,7 @@ from logging.handlers import RotatingFileHandler
 from app import app
 
 # Configuration
-HOST = '0.0.0.0'
+HOST = '192.168.1.148'
 PORT = 5000
 LOG_FILENAME = 'qrcode-to-pdf'
 
