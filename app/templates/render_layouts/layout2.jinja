@@ -11,7 +11,7 @@
 <table>
 <tr>
     <div class="columwrapper">
-      {%- for column in qrcodes|slice(5) %}
+      {%- for column in qrcodes|slice(2) %}
         <td>
         <ul class="column-{{ loop.index }}" style="list-style-type: none;">
         {%- for qrcode in column %}
@@ -19,7 +19,7 @@
             <div style="" >
                 <center>
                     <img id="{{ qrcode.id }}" src="{{ qrcode.name }}" style="padding-bottom: 0px">
-                    <span style="padding-top: 0px">{{ qrcode.label }}</span>
+                    <p style="padding-top: 0px; color: {{ fg_color }}; background-color: {{ bg_color }}">{{ text }}</p>
                 </center>
             </div>
           </li>

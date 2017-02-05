@@ -1,0 +1,203 @@
+{# VARS: #} 
+{# - qrcodes = [{}]     #}
+{#   \-> qrcode = {     #}
+{#          'name':''   #}
+{#          'id':''     #}
+{#          'label':''  #}
+{#          }           #}
+<html>
+<head>
+  <style type="text/css">
+  
+
+  /*.vertical{
+    writing-mode:tb-rl;
+    -webkit-transform:rotate(90deg);
+    -moz-transform:rotate(90deg);
+    -o-transform: rotate(90deg);
+    -ms-transform:rotate(90deg);
+    transform: rotate(90deg);
+    white-space:nowrap;
+    display:block;
+    bottom:0;
+    width:20px;
+    height:20px;
+  }*/
+
+p {
+  padding-top: 0px; 
+  color: {{ fg_color }}; 
+  background-color: {{ bg_color }};
+}
+
+li {
+  list-style: none;
+}
+
+.vertical {
+  writing-mode: sideways-rl;
+}
+
+.qr-border {
+    font-size: {{ size|int*5  }}px;
+    color: {{ fg_color }}; 
+    background-color: {{ bg_color }};
+}
+
+.dot {
+  font-size: {{ size|int*12  }}px;
+}
+
+.guru {
+  /*width: 100% !important;*/
+  vertical-align:top;
+}
+
+.qr-image {
+  /*margin-top: -60px;*/
+}
+
+.guru-list {
+  padding: 0px;
+}
+
+.stor { 
+  float: right;
+  letter-spacing: {{ size|int*3 }}px;
+}
+
+tr, td {
+  padding: 0px;
+  line-height: {{ size|int*6  }}px;
+}
+
+
+.wrapper {
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;  
+  
+  -webkit-flex-flow: row wrap;
+  flex-flow: row wrap;
+  
+  font-weight: bold;
+  text-align: center;
+}
+
+.wrapper {
+  padding: 10px;
+  flex: 1 100%;
+}
+
+.header {
+  background: tomato;
+}
+
+.footer {
+  background: lightgreen;
+}
+
+.main {
+  text-align: left;
+  background: deepskyblue;
+}
+
+.aside-1 {
+  background: gold;
+}
+
+.aside-2 {
+  background: hotpink;
+}
+
+
+
+
+// Flex box
+@media all and (min-width: 60px) {
+  .aside { flex: 1 auto; }
+}
+
+@media all and (min-width: 80px) {
+  .main    { flex: 3 0px; }
+  .aside-1 { order: 1; } 
+  .main    { order: 2; }
+  .aside-2 { order: 3; }
+  .footer  { order: 4; }
+}
+
+body {
+  padding: 2em; 
+}
+
+
+
+  </style>
+</head>
+
+
+<body>
+  <div class="columwrapper wrapper">
+    {%- for column in qrcodes|slice( size|int*3  ) %}
+
+      <ul class="column-{{ loop.index }}" style="list-style-type: none;">
+      {%- for qrcode in column %}
+        <li>
+
+          <table>
+            <tr>
+              <td>
+                <div class="stor" display="flex">
+                      <span class="qr-border stor">stor</span>
+                </div>                 
+              </td>
+              <td>
+                <span class="qr-border dot">.</span>                
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <div class="qr-image">
+                    <img id="{{ qrcode.id }}" src="{{ qrcode.name }}" style="padding-bottom: 0px">
+                </div>                 
+              </td>
+              <td class="guru">
+                <div class="qr-border rotated-text">
+                  <span class="side ">
+                    <ul class="guru-list">
+                      <li class="first">
+                        <span class="qr-border">g</span>
+                      </li>
+                      <li class="second">
+                        <span class="qr-border">u</span>
+                      </li>
+                      <li class="third">
+                        <span class="qr-border">r</span>
+                      </li>
+                      <li class="third">
+                        <span class="qr-border">u</span>
+                      </li>
+                    </ul>
+                  </span>
+                </div>                 
+              </td>
+            </tr>
+            <tr>
+              <td>
+              <p style="padding-top: 0px; color: {{ fg_color }}; background-color: {{ bg_color }}">{{ text }}</p>
+              </td>
+              <td>
+                
+              </td>
+            </tr>        
+          </table>
+        </li>
+      {%- endfor %}
+      </ul>
+
+          {%- endfor %}
+  </div>
+</body>
+</html>

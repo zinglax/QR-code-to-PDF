@@ -46,13 +46,28 @@ function action_init(){
 
 
 function action_render(){
-  var data = {}
+
+  console.log($($("#qr-pdf-size")[0]).val());
+  console.log($($("#qr-pdf-number")[0]).val());
+  console.log($($("#qr-pdf-fg-color")[0]).val());
+  console.log($($("#qr-pdf-bg-color")[0]).val());
+  console.log($($("#qr-pdf-label-text")[0]).val());
+
+
+
+  var data = {
+    "size": $($("#qr-pdf-size")[0]).val(),
+    "number": $($("#qr-pdf-number")[0]).val(),
+    "fg_color": $($("#qr-pdf-fg-color")[0]).val(),
+    "bg_color": $($("#qr-pdf-bg-color")[0]).val(),
+    "text": $($("#qr-pdf-label-text")[0]).val()
+  }
   ;
   function success(response){
     console.log( "UPDATING: action_render" );
-    console.log( response['rendered-html'] );
+    console.log( response['render'] );
     $( "#spa" ).empty();
-    $( "#spa" ).html( response['rendered-html']);
+    $( "#spa" ).html( response['render']);
   }
   run_ajax_action("render", data, success);
 }
