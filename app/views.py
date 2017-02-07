@@ -71,6 +71,8 @@ def process_ajax_action(request, **kwargs):
         # Create rendered qrcodes
         qrcodes = []
 
+        t = str(time.time())
+
         batch_time = time.time()
         for i in range(int(request.get_json()['data']['number'])):
             # t = time.time()
