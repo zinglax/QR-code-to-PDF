@@ -53,8 +53,6 @@ function action_render(){
   console.log($($("#qr-pdf-bg-color")[0]).val());
   console.log($($("#qr-pdf-label-text")[0]).val());
 
-
-
   var data = {
     "size": $($("#qr-pdf-size")[0]).val(),
     "number": $($("#qr-pdf-number")[0]).val(),
@@ -70,21 +68,6 @@ function action_render(){
     $( "#spa" ).html( response['render']);
   }
   run_ajax_action("render", data, success);
-}
-
-
-function init_spectrum(jqSelector){
-  console.log("initializing");
-
-  // $(jqSelector).spectrum({
-  //   showInput: true,
-  //   allowEmpty:true,
-  //   showAlpha: true
-  // });
-  // 
-  $("#qr-pdf-bg-color").spectrum({
-    color: "#f00"
-});
 }
 
 
@@ -113,8 +96,6 @@ $( document ).ready(function() {
       action_render();
     });
   });
-
-init_spectrum(".qr-pdf-spectrum")
 
 // End
 });
