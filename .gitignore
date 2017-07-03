@@ -87,3 +87,9 @@ ENV/
 
 # Rope project settings
 .ropeproject
+
+### CUSTOM ###
+
+# Static Generated files and images
+app/static/*.svg
+app/static/*.pdf
